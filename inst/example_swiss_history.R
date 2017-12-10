@@ -5,10 +5,10 @@ library(timemachine)
 # assuming GPD.US is available one period before
 # (for demonstration only)
 swiss_history2 <- swiss_history %>% 
-  mutate(pub_date = if_else(var == "GDP.US", add_to_date(pub_date, "-1 quarter"), pub_date)) %>% 
+  mutate(pub_date = if_else(var == "EXP", add_to_date(pub_date, "-1 quarter"), pub_date)) %>% 
   
   # pc rates
-  filter(var %in% c("GDP.US", "GDP.CH")) %>% 
+  filter(var %in% c("EXP", "GDP.CH")) %>% 
   group_by(var, pub_date) %>% 
   mutate(value = log(value) - lag(log(value))) %>% 
   filter(!is.na(value))
@@ -23,9 +23,9 @@ options(timemachine.dates = seq(as.Date("2014-01-01"), to = as.Date("2016-10-01"
 # globalenv(). This is useful to build the models.
 wormhole()
 
-# At a point in history, note that GDP.US is available but GDP.CH is not
-wormhole("2014-01-01")
-GDP.US
+# At a point in history, note that EXP is available but GDP.CH is not
+wormhole("2014-07-01")
+EXP
 GDP.CH
 
 # latest() returns the latest data, without writing to globalenv()
@@ -46,10 +46,10 @@ dta <- timemachine(
     m <- forecast(auto.arima(GDP.CH), h = 3)
     m$mean
   },
-  arimax = {
+  arima_exp = {
     m <- forecast(auto.arima(GDP.CH, 
-                             xreg = window(GDP.US, end = end(GDP.CH))), 
-                  xreg = window(GDP.US, start = tsp(GDP.CH)[2] + 1/12),
+                             xreg = window(EXP, end = end(GDP.CH))), 
+                  xreg = window(EXP, start = tsp(GDP.CH)[2] + 1/12),
                   h = 1)
     m$mean
   },
