@@ -17,29 +17,22 @@ wormhole <- function(date = NULL,
     ungroup() %>% 
     select(-pub_date)
 
-  if (verbose){
-    message("Travelling to ", date, "\n")
-  }
-
+  newobj <- NULL
   if ("ts" %in% timemachine.expose){
     ll <- split(dta, dta$var)
     Map(function(x, value) assign(x, ts_ts(value), envir = envir), 
         x = names(ll), value = ll)
-
-    if (verbose){
-      message("time series objects:\n", 
-              paste(unique(timemachine.history$var), collapse = ", ")
-              )
-    }
+    newobj <- unique(timemachine.history$var)
   }
 
   non.ts.expose <- setdiff(timemachine.expose, "ts")
-
   if (length(non.ts.expose) > 0){
     assign(".data", dta, envir = envir)
-    if (verbose){
-      message("data.frame with time series:\n.data")
-    }
+    newobj <- c(newobj, ".data")
+  }
+  if (verbose){
+    message("Opening wormhole on the ", date, " for the following objects:")
+    message(paste(newobj, collapse = ", "))
   }
 
   return(invisible(dta))

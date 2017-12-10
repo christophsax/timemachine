@@ -41,6 +41,9 @@
 #' @export
 timemachine <- function(..., 
                         timemachine.dates = getOption("timemachine.dates")){
+
+  stopifnot(!is.null(timemachine.dates))
+
   exprs <- as.list(match.call(expand.dots = FALSE)$...)
   exprs.names <- names(exprs)
   if (is.null(exprs.names)) exprs.names <- paste0("ans", seq_along(exprs))
@@ -52,7 +55,12 @@ timemachine <- function(...,
     message(timemachine.dates[i])
     wormhole(timemachine.dates[i], envir = env, verbose = FALSE)
 
-    anss <- lapply(exprs, eval, envir = env)
+    anss <- lapply(exprs, function(e) try(eval(e, envir = env)))
+
+    if (any(sapply(anss, inherits, "try-error"))){
+      wormhole(timemachine.dates[i])
+      stop("Evaluation error. Opening wormhole at time of occurence.", call. = FALSE)
+    }
 
     is.boxable <- vapply(anss, ts_boxable, TRUE)
     if (!all(is.boxable)){
