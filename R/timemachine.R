@@ -18,27 +18,56 @@
 #' # options
 #' options(timemachine.expose = c("ts", "data.frame"))
 #' options(timemachine.expose = c("ts", "tbl"))
+#' options(timemachine.dates = seq(as.Date("1979-07-01"), to = as.Date("1979-12-01"), by = "month"))
 #' 
 #' library(forecast)
-#' dates <- seq(as.Date("1978-01-01"), to = as.Date("1979-12-01"), by = "month")
-#' 
 #' timemachine({
 #'   m <- forecast(auto.arima(mdeaths))
 #'   m$mean   # expression must evaluate to a tsboxable object
-#' }, dates = dates)
+#' })
+#' 
+#' # Using multiple experessions
+#' timemachine(
+#'   etf = {
+#'     m <- forecast(mdeaths)
+#'     m$mean 
+#'   },
+#'   arima = {
+#'     m <- forecast(auto.arima(mdeaths))
+#'     m$mean
+#'   }
+#' )
 #' 
 #' @export
-timemachine <- function(expr, dates){
+timemachine <- function(..., 
+                        timemachine.dates = getOption("timemachine.dates")){
+  exprs <- as.list(match.call(expand.dots = FALSE)$...)
+  exprs.names <- names(exprs)
+  if (is.null(exprs.names)) exprs.names <- paste0("ans", seq_along(exprs))
+  exprs.names <- make.unique(exprs.names)
+
   env <- environment()
   ll <- list()
-  for (i in seq_along(dates)){
-    message(".", appendLF = FALSE)
-    wormhole(dates[i], envir = env, verbose = FALSE)
-    ans <- eval(expr, envir = env)
-    stopifnot(ts_boxable(ans))
-    ll[[i]] <- ts_tbl(ans) %>% 
-      mutate(pub_date = dates[i])
+  for (i in seq_along(timemachine.dates)){
+    message(timemachine.dates[i])
+    wormhole(timemachine.dates[i], envir = env, verbose = FALSE)
+
+    anss <- lapply(exprs, eval, envir = env)
+
+    is.boxable <- vapply(anss, ts_boxable, TRUE)
+    if (!all(is.boxable)){
+      stop("some expressions do not evaluate to a boxable object: ", 
+           paste(exprs.names[!is.boxable], collapse = ", ")
+           )
+    }
+    anss.tbl <- lapply(anss, ts_tbl)
+    names(anss.tbl) <- exprs.names
+
+    ll[[i]] <- bind_rows(anss.tbl, .id = "expr") %>% 
+      mutate(pub_date = timemachine.dates[i])
   }
-  message("done!", appendLF = TRUE)
-  bind_rows(ll)
+
+  bind_rows(ll) %>% 
+    rename(ref_date = time) %>% 
+    select(pub_date, ref_date, expr, value, everything())
 }

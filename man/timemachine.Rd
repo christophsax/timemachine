@@ -4,7 +4,7 @@
 \alias{timemachine}
 \title{Travel Through Time}
 \usage{
-timemachine(expr, dates)
+timemachine(..., timemachine.dates = getOption("timemachine.dates"))
 }
 \description{
 Travel Through Time
@@ -27,6 +27,7 @@ options(timemachine.history = timemachine.history)
 # options
 options(timemachine.expose = c("ts", "data.frame"))
 options(timemachine.expose = c("ts", "tbl"))
+options(timemachine.dates = seq(as.Date("1978-01-01"), to = as.Date("1979-12-01"), by = "month"))
 
 library(forecast)
 dates <- seq(as.Date("1978-01-01"), to = as.Date("1979-12-01"), by = "month")
@@ -34,6 +35,6 @@ dates <- seq(as.Date("1978-01-01"), to = as.Date("1979-12-01"), by = "month")
 timemachine({
   m <- forecast(auto.arima(mdeaths))
   m$mean   # expression must evaluate to a tsboxable object
-}, dates = dates)
+})
 
 }
