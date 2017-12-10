@@ -6,8 +6,22 @@
 \usage{
 pseudo_history(x, by = NULL)
 }
+\arguments{
+\item{x}{a `ts_boxable` time series.}
+
+\item{by}{offset of publication date. See details.}
+}
 \description{
-Pseudo History Data Frame
+If no historical data is available, *pseudo history* data can be produced 
+from current data. The function replicates the data for each observational 
+point. If `by` is specified, a publication delay will be assumed.
+}
+\details{
+`by` can be specified in several ways.
+  - A number, taken to be in days.
+  - A object of class `difftime`
+  - A character string, containing one of "day", "week", "month", "quarter" or "year". This can optionally be preceded by a (positive or negative) integer and a space, or followed by "s".
+See seq.POSIXt for the details of "month".
 }
 \examples{
 pseudo_history(ts_tbl(mdeaths), "1 month")

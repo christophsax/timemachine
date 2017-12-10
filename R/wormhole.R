@@ -1,4 +1,25 @@
-#' Travel to a point in Time
+#' Travel to a Specific Point in Time
+#' 
+#' Opening a wormhole enables time travel to a specific point in time. By
+#' default, the `timemachine.history` data frame is exposed to the global
+#' enviroment as it was available on that day.
+#' 
+#' @param date `"Date"` or `"character"`, the date where to a wormhole should be 
+#'   opened.
+
+#' @param timemachine.history a data frame containing the history of the data.
+#'   Must have column names `pub_date`, `ref_date` and `value`, plus a column
+#'   that idenfies multiple series. Currently, this must be a single column
+#'   `var`, but this will change. Usually, `timemachine.history` is set as an
+#'   option (see examples)
+#' 
+#' @param timemachine.expose character, by default, the function exposes time
+#'   series as single `"ts"` objects and a data frame, named `.data`, but all
+#'   `ts_boxable` objects will be supported. Not yet implemented.
+#' 
+#' @param envir environment where to expose the data.
+#'
+#' @param verbose logical, what objects will be exposed?
 #' 
 #' @export
 wormhole <- function(date = NULL,

@@ -1,5 +1,15 @@
 #' Travel Through Time
 #' 
+#' Core function of the package. Runs through a series of dates and evaluates
+#' one or several expressions with the data available. Collects `ts_boxable`
+#' objects returned by the expressions.
+#' 
+#' @param ... expressions to be evaluated. Expressions can be named, so the name
+#'   will appear in the output
+#' @param timemachine.dates expressions to be evaluated. Usually specifyied via 
+#'   options. See examples. Expressions can be named, so the name
+#'   will appear in the output
+#' 
 #' @examples
 #' library(tsbox)
 #' library(timemachine)
@@ -8,16 +18,12 @@
 #' 
 #' # Constructing pseudo history data. It is assumed that mdeath is available 
 #' # one month after the end of the period, but fdeath immediately. 
-#' timemachine.history <- bind_rows(
+#' ldeaths.history <- bind_rows(
 #'   pseudo_history(ts_tbl(mdeaths), "1 month"),
 #'   pseudo_history(ts_tbl(fdeaths))
 #' )
 #' 
-#' options(timemachine.history = timemachine.history)
-#' 
-#' # options
-#' options(timemachine.expose = c("ts", "data.frame"))
-#' options(timemachine.expose = c("ts", "tbl"))
+#' options(timemachine.history = ldeaths.history)
 #' options(timemachine.dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
 #' 
 #' library(forecast)
@@ -43,6 +49,7 @@ timemachine <- function(...,
                         timemachine.dates = getOption("timemachine.dates")){
 
   stopifnot(!is.null(timemachine.dates))
+  timemachine.dates <- as.Date(timemachine.dates)
 
   exprs <- as.list(match.call(expand.dots = FALSE)$...)
   exprs.names <- names(exprs)
