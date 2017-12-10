@@ -45,4 +45,4 @@ timemachine({
 })
 ```
 
-A more extended example can be found [here](https://gist.github.com/christophsax/e3c9a39d85d5e24112017e47e79cc183)
+A more extended example can be found [here](https://gist.github.com/christophsax/e3c9a39d85d5e24112017e47e79cc183).
