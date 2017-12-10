@@ -1,6 +1,6 @@
 # Travel Through Time
 
-R frame work that makes the evaluation of forecast models easy. 
+R framework that makes evaluation of forecast models easy. 
 
 ![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
 
