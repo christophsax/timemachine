@@ -38,7 +38,7 @@ forecasts and collects the data.
 ```r
 library(forecast)
 timemachine({
-  m <- forecast(auto.arima(mdeaths))
+  m <- forecast(auto.arima(GDP.CH))
   m$mean   # expression must evaluate to a tsboxable object
 })
 ```
