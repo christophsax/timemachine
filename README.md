@@ -4,7 +4,7 @@ R frame work that makes the evaluation of forecast models easy.
 
 ![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
 
-This is a *very* early prototype. **Better con't use at this point.**
+This is a *very* early prototype. **Better don't use at this point.**
 
 
 ### Installation
