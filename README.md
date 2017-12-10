@@ -1,11 +1,10 @@
 # Travel Through Time
 
-An R frame work that makes the evaluation of forecast models easy. Evaluation
-can be done both with historic or actual data.
+R frame work that makes the evaluation of forecast models easy. 
 
-![](inst/example_mdeaths.R)
+![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
 
-This is a *very* early prototype. Better not to use at this point.
+This is a *very* early prototype. **Better con't use at this point.**
 
 
 ### Installation
@@ -22,7 +21,7 @@ remotes::install_github("chirstophsax/timemachine")
 
 library(timemachine)
 
-Specify historic dataset and evaluation period
+Specify historic dataset and evaluation period:
 
 ```r
 options(timemachine.history = swiss_history)
@@ -32,14 +31,17 @@ options(timemachine.dates = seq(as.Date("1979-10-01"),
 ```
 
 Run `timemachine` with one or several forecast models. Build the models as you 
-would build them with acutal data. `timemachine` exposes the data, evaluates the 
+would build them in standard R. `timemachine` exposes the data, evaluates the 
 forecasts and collects the data.
+
+The expression must evaluate to a tsboxable object. E.g., a `ts`, `xts`, or 
+`data.frame` object.
 
 ```r
 library(forecast)
 timemachine({
   m <- forecast(auto.arima(GDP.CH))
-  m$mean   # expression must evaluate to a tsboxable object
+  m$mean   
 })
 ```
 
