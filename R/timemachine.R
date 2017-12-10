@@ -6,7 +6,7 @@
 #' library(dplyr)
 #' library(tidyr)
 #' 
-#' # Constructing a pseudo data history. It is assumed that mdeath is available 
+#' # Constructing pseudo history data. It is assumed that mdeath is available 
 #' # one month after the end of the period, but fdeath immediately. 
 #' timemachine.history <- bind_rows(
 #'   pseudo_history(ts_tbl(mdeaths), "1 month"),
@@ -18,7 +18,7 @@
 #' # options
 #' options(timemachine.expose = c("ts", "data.frame"))
 #' options(timemachine.expose = c("ts", "tbl"))
-#' options(timemachine.dates = seq(as.Date("1979-07-01"), to = as.Date("1979-12-01"), by = "month"))
+#' options(timemachine.dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
 #' 
 #' library(forecast)
 #' timemachine({

@@ -16,8 +16,6 @@
 parse_date_2000colon1 <- function(x){
   apply_to_unique(
     function(x){
-
-      # probably worth using
       sp <- stringi::stri_split_fixed(x, ":", simplify = TRUE)
       stopifnot(ncol(sp) == 2L)
       year <- sp[, 1]
@@ -25,8 +23,7 @@ parse_date_2000colon1 <- function(x){
 
       check_subset(qrt, 1:4)
       check_subset(year, 1950:2080)
-      
-      z <- as.Date(paste(year, quarter_to_month(qrt), 1, sep = "-"))
+      as.Date(paste(year, quarter_to_month(qrt), 1, sep = "-"))
     }, 
     x
   )

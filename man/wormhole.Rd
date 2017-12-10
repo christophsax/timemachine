@@ -4,7 +4,8 @@
 \alias{wormhole}
 \title{Travel to a point in Time}
 \usage{
-wormhole(at, timemachine.history = getOption("timemachine.history"),
+wormhole(date = NULL,
+  timemachine.history = getOption("timemachine.history"),
   timemachine.expose = getOption("timemachine.expose", c("ts", "data.frame")),
   envir = globalenv(), verbose = TRUE)
 }
