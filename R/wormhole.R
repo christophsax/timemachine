@@ -8,10 +8,11 @@ wormhole <- function(date = NULL,
                      verbose = TRUE){
 
   if (is.null(date)) date <- Sys.Date()
+  date <- as.Date(date)
 
   dta <- timemachine.history %>% 
-    group_by(var) %>% 
     filter(pub_date <= date) %>% 
+    group_by(var) %>% 
     filter(pub_date == max(pub_date)) %>% 
     ungroup() %>% 
     select(-pub_date)

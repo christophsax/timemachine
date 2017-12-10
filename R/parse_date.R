@@ -47,3 +47,4 @@ quarter_to_month <- function(q){
   stopifnot(q %in% 1:4)
   (q - 1) * 3 + 1
 }
+

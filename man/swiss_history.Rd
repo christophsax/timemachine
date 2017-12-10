@@ -37,7 +37,8 @@ swiss_history <-
   rename(ref_date = X__1) \%>\% 
   gather(pub_date, value, -var, -ref_date) \%>\% 
   mutate_at(c("ref_date", "pub_date"), parse_date_2000colon1) \%>\% 
-  select(var, pub_date, ref_date, value)
+  select(var, pub_date, ref_date, value) \%>\% 
+  filter(!is.na(value)) 
 
 # save(swiss_history, file = "data/swiss_history.RData")
 
