@@ -4,7 +4,7 @@ R framework that makes evaluation of forecasts easy.
 
 ![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
 
-This is a *very* early prototype. **Don't touch it unless you want to get lost in time.**
+This is a *very* early prototype. **Don't touch unless you want to get lost in time.**
 
 
 ### Installation
