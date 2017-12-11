@@ -19,7 +19,9 @@ remotes::install_github("christophsax/timemachine")
 
 ### Basic Use
 
+```r
 library(timemachine)
+```
 
 Specify historic dataset and evaluation period:
 
