@@ -4,7 +4,7 @@ R framework that makes evaluation of forecasts easy.
 
 ![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
 
-This is a *very* early prototype. **Better don't use at this point.**
+This is a *very* early prototype. **Don't use it unless you want to get lost in time.**
 
 
 ### Installation
@@ -13,8 +13,8 @@ timemachine requires [tsbox](https://github.com/christophsax/tsbox), which is
 not yet on CRAN. To install both:
 
 ```t
-remotes::install_github("chirstophsax/tsbox")
-remotes::install_github("chirstophsax/timemachine")
+remotes::install_github("christophsax/tsbox")
+remotes::install_github("christophsax/timemachine")
 ```
 
 ### Basic Use
