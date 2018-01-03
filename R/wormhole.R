@@ -38,9 +38,7 @@ wormhole <- function(date = NULL,
     ungroup() %>% 
     transmute(time = ref_date, value, var)
 
-  .today = date
-  .data = dta
-  newobj <- ".today"
+  newobj <- NULL
   if ("ts" %in% timemachine.expose){
     ll <- split(dta, dta$var)
     Map(function(x, value) assign(x, ts_ts(value), envir = envir), 
@@ -53,6 +51,8 @@ wormhole <- function(date = NULL,
     assign(".data", dta, envir = envir)
     newobj <- c(newobj, ".data")
   }
+  newobj <- c(newobj, ".today")
+  assign(".today", date, envir = envir)
   if (verbose){
     message("Opening wormhole on the ", date, " for the following objects:")
     message(paste(newobj, collapse = ", "))
