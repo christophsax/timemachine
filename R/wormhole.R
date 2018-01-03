@@ -36,7 +36,7 @@ wormhole <- function(date = NULL,
     group_by(var) %>% 
     filter(pub_date == max(pub_date)) %>% 
     ungroup() %>% 
-    select(-pub_date)
+    transmute(time = ref_date, value, var)
 
   newobj <- NULL
   if ("ts" %in% timemachine.expose){
