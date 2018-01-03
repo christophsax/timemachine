@@ -39,7 +39,8 @@ wormhole <- function(date = NULL,
     transmute(time = ref_date, value, var)
 
   .today = date
-  newobj <- .today
+  .data = dta
+  newobj <- ".today"
   if ("ts" %in% timemachine.expose){
     ll <- split(dta, dta$var)
     Map(function(x, value) assign(x, ts_ts(value), envir = envir), 
