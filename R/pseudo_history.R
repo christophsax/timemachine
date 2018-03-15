@@ -22,8 +22,7 @@ pseudo_history <- function(x, by = NULL){
 
   dta0 <- ts_tbl(x) %>% 
     rename(ref_date = time) %>% 
-    mutate(pub_date = add_to_date(ref_date, by)) %>% 
-    select(ref_date, pub_date, value, var)
+    mutate(pub_date = add_to_date(ref_date, by)) 
 
   blow_up <- function(this){
     this %>% 
@@ -36,9 +35,15 @@ pseudo_history <- function(x, by = NULL){
     select(-.pub_date)
   }
 
-  dta0 %>% 
-    split(dta0$var) %>% 
-    lapply(blow_up) %>% 
-    bind_rows() %>% 
-    filter(!is.na(value))
+  if (ncol(dta0) > 3){
+    dta0 %>% 
+      split(dta0$var) %>% 
+      lapply(blow_up) %>% 
+      bind_rows() %>% 
+      filter(!is.na(value))
+  } else {
+    dta0 %>% 
+      blow_up() %>% 
+      filter(!is.na(value))
+  }
 }
