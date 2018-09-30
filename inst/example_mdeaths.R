@@ -2,8 +2,8 @@
 
 library(timemachine)
 
-# Constructing pseudo history data. It is assumed that mdeath is available 
-# one month after the end of the period, but fdeath immediately. 
+# Constructing pseudo history data. It is assumed that mdeath is available
+# one month after the end of the period, but fdeath immediately.
 timemachine.history <- bind_rows(
   pseudo_history(ts_tbl(mdeaths), "1 month"),
   pseudo_history(ts_tbl(fdeaths))
@@ -18,7 +18,7 @@ options(timemachine.history = timemachine.history)
 # Telling the time machine where to evaluate
 options(timemachine.dates = seq(as.Date("1978-01-01"), to = as.Date("1979-10-01"), by = "month"))
 
-# Wormhole without an argument makes the latest data available in the 
+# Wormhole without an argument makes the latest data available in the
 # globalenv(). This is useful to build the models.
 wormhole()
 
@@ -41,8 +41,8 @@ dta <- timemachine(
     m$mean
   },
   arimax = {
-    m <- forecast(auto.arima(mdeaths, 
-                             xreg = window(fdeaths, end = end(mdeaths))), 
+    m <- forecast(auto.arima(mdeaths,
+                             xreg = window(fdeaths, end = end(mdeaths))),
                   xreg = window(fdeaths, start = tsp(mdeaths)[2] + 1/12),
                   h = 1)
     m$mean
@@ -57,27 +57,27 @@ dta <- timemachine(
 
 ### Back to the Future
 
-errors <- 
-  dta %>% 
-  group_by(pub_date, expr) %>% 
-  mutate(h = seq(n())) %>% 
-  ungroup() %>% 
-  rename(fct = value) %>% 
-  mutate(var = "mdeaths") %>% 
-  left_join(rename(latest(), act = value)) %>% 
-  filter(!is.na(act)) %>% 
-  mutate(error = fct - act) 
+errors <-
+  dta %>%
+  group_by(pub_date, expr) %>%
+  mutate(h = seq(n())) %>%
+  ungroup() %>%
+  rename(fct = value) %>%
+  mutate(var = "mdeaths") %>%
+  left_join(rename(latest(), act = value)) %>%
+  filter(!is.na(act)) %>%
+  mutate(error = fct - act)
 
 # error stats
-errors %>% 
-  group_by(expr, h) %>% 
+errors %>%
+  group_by(expr, h) %>%
   summarize(rmse = sqrt(sum(error^2)), mae = (mean(abs(error))))
 
 # scatter plots, by horizon
 library(ggplot2)
-errors %>% 
+errors %>%
   ggplot() +
-  geom_point(aes(x = fct, y = act)) + 
+  geom_point(aes(x = fct, y = act)) +
   facet_grid(h ~ expr)
 
 
