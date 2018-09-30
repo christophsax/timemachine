@@ -28,17 +28,17 @@ download.file(url, tf)
 
 sheets <- readxl::excel_sheets(tf)
 
-swiss_history <- 
-  data_frame(var = setdiff(sheets, "title")) \%>\% 
-  rowwise() \%>\% 
-  mutate(data = list(read_excel(path = tf, sheet = var, skip = 10))) \%>\% 
-  ungroup() \%>\% 
-  unnest() \%>\% 
-  rename(ref_date = X__1) \%>\% 
-  gather(pub_date, value, -var, -ref_date) \%>\% 
-  mutate_at(c("ref_date", "pub_date"), parse_date_2000colon1) \%>\% 
-  select(var, pub_date, ref_date, value) \%>\% 
-  filter(!is.na(value)) 
+swiss_history <-
+  data_frame(var = setdiff(sheets, "title")) \%>\%
+  rowwise() \%>\%
+  mutate(data = list(read_excel(path = tf, sheet = var, skip = 10))) \%>\%
+  ungroup() \%>\%
+  unnest() \%>\%
+  rename(ref_date = X__1) \%>\%
+  gather(pub_date, value, -var, -ref_date) \%>\%
+  mutate_at(c("ref_date", "pub_date"), parse_date_2000colon1) \%>\%
+  select(var, pub_date, ref_date, value) \%>\%
+  filter(!is.na(value))
 
 # save(swiss_history, file = "data/swiss_history.RData")
 

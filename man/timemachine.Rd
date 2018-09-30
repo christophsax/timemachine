@@ -10,7 +10,7 @@ timemachine(..., timemachine.dates = getOption("timemachine.dates"))
 \item{...}{expressions to be evaluated. Expressions can be named, so the name
 will appear in the output}
 
-\item{timemachine.dates}{expressions to be evaluated. Usually specifyied via 
+\item{timemachine.dates}{expressions to be evaluated. Usually specifyied via
 options. See examples. Expressions can be named, so the name
 will appear in the output}
 }
@@ -25,8 +25,8 @@ library(timemachine)
 library(dplyr)
 library(tidyr)
 
-# Constructing pseudo history data. It is assumed that mdeath is available 
-# one month after the end of the period, but fdeath immediately. 
+# Constructing pseudo history data. It is assumed that mdeath is available
+# one month after the end of the period, but fdeath immediately.
 ldeaths.history <- bind_rows(
   pseudo_history(ts_tbl(mdeaths), "1 month"),
   pseudo_history(ts_tbl(fdeaths))
@@ -45,7 +45,7 @@ timemachine({
 timemachine(
   etf = {
     m <- forecast(mdeaths)
-    m$mean 
+    m$mean
   },
   arima = {
     m <- forecast(auto.arima(mdeaths))

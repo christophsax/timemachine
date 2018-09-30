@@ -6,11 +6,11 @@
 \usage{
 wormhole(date = NULL,
   timemachine.history = getOption("timemachine.history"),
-  timemachine.expose = getOption("timemachine.expose", c("ts", "data.frame")),
-  envir = globalenv(), verbose = TRUE)
+  timemachine.expose = getOption("timemachine.expose", c("ts",
+  "data.frame")), envir = globalenv(), verbose = TRUE)
 }
 \arguments{
-\item{date}{`"Date"` or `"character"`, the date where to a wormhole should be 
+\item{date}{`"Date"` or `"character"`, the date where to a wormhole should be
 opened.}
 
 \item{timemachine.history}{a data frame containing the history of the data.

@@ -12,8 +12,8 @@ pseudo_history(x, by = NULL)
 \item{by}{offset of publication date. See details.}
 }
 \description{
-If no historical data is available, *pseudo history* data can be produced 
-from current data. The function replicates the data for each observational 
+If no historical data is available, *pseudo history* data can be produced
+from current data. The function replicates the data for each observational
 point. If `by` is specified, a publication delay will be assumed.
 }
 \details{
