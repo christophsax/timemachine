@@ -17,25 +17,25 @@
 #' pseudo_history(ts_tbl(mdeaths), "1 month")
 #' pseudo_history(ts_tbl(fdeaths))
 #' @export
-pseudo_history <- function(x, by = NULL){
+pseudo_history <- function(x, by = NULL) {
   stopifnot(tsbox::ts_boxable(x))
 
   dta0 <- ts_tbl(x) %>%
     rename(ref_date = time) %>%
     mutate(pub_date = add_to_date(ref_date, by))
 
-  blow_up <- function(this){
+  blow_up <- function(this) {
     this %>%
-    select(.pub_date = pub_date) %>%
-    rowwise() %>%
-    mutate(data = list(filter(this, pub_date <= .pub_date))) %>%
-    ungroup() %>%
-    unnest() %>%
-    mutate(pub_date = .pub_date) %>%
-    select(-.pub_date)
+      select(.pub_date = pub_date) %>%
+      rowwise() %>%
+      mutate(data = list(filter(this, pub_date <= .pub_date))) %>%
+      ungroup() %>%
+      unnest() %>%
+      mutate(pub_date = .pub_date) %>%
+      select(-.pub_date)
   }
 
-  if (ncol(dta0) > 3){
+  if (ncol(dta0) > 3) {
     dta0 %>%
       split(dta0$var) %>%
       lapply(blow_up) %>%

@@ -42,4 +42,3 @@
 #' data(swiss_history)
 #' swiss_history
 NULL
-

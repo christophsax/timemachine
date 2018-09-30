@@ -46,8 +46,7 @@
 #'
 #' @export
 timemachine <- function(...,
-                        timemachine.dates = getOption("timemachine.dates")){
-
+                        timemachine.dates = getOption("timemachine.dates")) {
   stopifnot(!is.null(timemachine.dates))
   timemachine.dates <- as.Date(timemachine.dates)
 
@@ -58,22 +57,23 @@ timemachine <- function(...,
 
   env <- environment()
   ll <- list()
-  for (i in seq_along(timemachine.dates)){
+  for (i in seq_along(timemachine.dates)) {
     message(timemachine.dates[i])
     wormhole(timemachine.dates[i], envir = env, verbose = FALSE)
 
     anss <- lapply(exprs, function(e) try(eval(e, envir = env)))
 
-    if (any(sapply(anss, inherits, "try-error"))){
+    if (any(sapply(anss, inherits, "try-error"))) {
       wormhole(timemachine.dates[i])
       stop("Evaluation error. Opening wormhole at time of occurence.", call. = FALSE)
     }
 
     is.boxable <- vapply(anss, ts_boxable, TRUE)
-    if (!all(is.boxable)){
-      stop("some expressions do not evaluate to a boxable object: ",
-           paste(exprs.names[!is.boxable], collapse = ", ")
-           )
+    if (!all(is.boxable)) {
+      stop(
+        "some expressions do not evaluate to a boxable object: ",
+        paste(exprs.names[!is.boxable], collapse = ", ")
+      )
     }
     anss.tbl <- lapply(anss, ts_tbl)
     names(anss.tbl) <- exprs.names

@@ -13,9 +13,9 @@
 #' # parse_date_2000colon1(c("2000:5"))
 #' # parse_date_2000colon1(c("00:1"))
 #' @export
-parse_date_2000colon1 <- function(x){
+parse_date_2000colon1 <- function(x) {
   apply_to_unique(
-    function(x){
+    function(x) {
       sp <- stringi::stri_split_fixed(x, ":", simplify = TRUE)
       stopifnot(ncol(sp) == 2L)
       year <- sp[, 1]
@@ -29,22 +29,21 @@ parse_date_2000colon1 <- function(x){
   )
 }
 
-check_subset <- function(x, of){
+check_subset <- function(x, of) {
   sd <- setdiff(x, of)
-  if (length(sd) > 0){
+  if (length(sd) > 0) {
     stop("Values not in mapping: ", paste(sd, collapse = ", "))
   }
 }
 
-apply_to_unique <- function(fun, x){
+apply_to_unique <- function(fun, x) {
   xu <- unique(x)
   zu <- fun(xu)
   left_join(data_frame(x = x), data_frame(x = xu, z = zu), by = "x")$z
 }
 
-quarter_to_month <- function(q){
+quarter_to_month <- function(q) {
   q <- as.numeric(q)
   stopifnot(q %in% 1:4)
   (q - 1) * 3 + 1
 }
-
