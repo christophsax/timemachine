@@ -1,14 +1,14 @@
 #' Convert to date
-#' 
+#'
 #' Date converter with simpilar stucture
 #' - Naming convention: `parse_date_[EXAMPLE]
 #' - Apply operation on unique values only (use `apply_to_unique()`)
 #' - Use `stringi`?
-#' 
+#'
 #' @param character vector
 #' @examples
 #' parse_date_2000colon1(c("2000:1", "2000:2"))
-#' 
+#'
 #' # These should drop an error:
 #' # parse_date_2000colon1(c("2000:5"))
 #' # parse_date_2000colon1(c("00:1"))
@@ -24,7 +24,7 @@ parse_date_2000colon1 <- function(x){
       check_subset(qrt, 1:4)
       check_subset(year, 1950:2080)
       as.Date(paste(year, quarter_to_month(qrt), 1, sep = "-"))
-    }, 
+    },
     x
   )
 }

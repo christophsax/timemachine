@@ -1,10 +1,10 @@
 #' Travel to a Specific Point in Time
-#' 
+#'
 #' Opening a wormhole enables time travel to a specific point in time. By
 #' default, the `timemachine.history` data frame is exposed to the global
 #' enviroment as it was available on that day.
-#' 
-#' @param date `"Date"` or `"character"`, the date where to a wormhole should be 
+#'
+#' @param date `"Date"` or `"character"`, the date where to a wormhole should be
 #'   opened.
 
 #' @param timemachine.history a data frame containing the history of the data.
@@ -12,15 +12,15 @@
 #'   that idenfies multiple series. Currently, this must be a single column
 #'   `var`, but this will change. Usually, `timemachine.history` is set as an
 #'   option (see examples)
-#' 
+#'
 #' @param timemachine.expose character, by default, the function exposes time
 #'   series as single `"ts"` objects and a data frame, named `.data`, but all
 #'   `ts_boxable` objects will be supported. Not yet implemented.
-#' 
+#'
 #' @param envir environment where to expose the data.
 #'
 #' @param verbose logical, what objects will be exposed?
-#' 
+#'
 #' @export
 wormhole <- function(date = NULL,
                      timemachine.history = getOption("timemachine.history"),
@@ -31,17 +31,17 @@ wormhole <- function(date = NULL,
   if (is.null(date)) date <- Sys.Date()
   date <- as.Date(date)
 
-  dta <- timemachine.history %>% 
-    filter(pub_date <= date) %>% 
-    group_by(var) %>% 
-    filter(pub_date == max(pub_date)) %>% 
-    ungroup() %>% 
+  dta <- timemachine.history %>%
+    filter(pub_date <= date) %>%
+    group_by(var) %>%
+    filter(pub_date == max(pub_date)) %>%
+    ungroup() %>%
     transmute(time = ref_date, value, var)
 
   newobj <- NULL
   if ("ts" %in% timemachine.expose){
     ll <- split(dta, dta$var)
-    Map(function(x, value) assign(x, ts_ts(value), envir = envir), 
+    Map(function(x, value) assign(x, ts_ts(value), envir = envir),
         x = names(ll), value = ll)
     newobj <- unique(timemachine.history$var)
   }
