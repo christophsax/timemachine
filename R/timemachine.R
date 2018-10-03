@@ -6,7 +6,7 @@
 #'
 #' @param ... expressions to be evaluated. Expressions can be named, so the name
 #'   will appear in the output
-#' @param timemachine.dates expressions to be evaluated. Usually specifyied via
+#' @param dates expressions to be evaluated. Usually specifyied via
 #'   options. See examples. Expressions can be named, so the name
 #'   will appear in the output
 #'
@@ -24,7 +24,7 @@
 #' )
 #'
 #' options(timemachine.history = ldeaths.history)
-#' options(timemachine.dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
+#' options(dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
 #'
 #' library(forecast)
 #' timemachine({
@@ -45,10 +45,9 @@
 #' )
 #'
 #' @export
-timemachine <- function(...,
-                        timemachine.dates = getOption("timemachine.dates")) {
-  stopifnot(!is.null(timemachine.dates))
-  timemachine.dates <- as.Date(timemachine.dates)
+timemachine <- function(..., dates = getOption("timemachine.dates")) {
+  stopifnot(!is.null(dates))
+  dates <- as.Date(dates)
 
   exprs <- as.list(match.call(expand.dots = FALSE)$...)
   exprs.names <- names(exprs)
@@ -57,15 +56,20 @@ timemachine <- function(...,
 
   env <- environment()
   ll <- list()
-  for (i in seq_along(timemachine.dates)) {
-    message(timemachine.dates[i])
-    wormhole(timemachine.dates[i], envir = env, verbose = FALSE)
+  for (i in seq_along(dates)) {
+    message(dates[i])
+    wormhole(dates[i], envir = env, verbose = FALSE)
 
     anss <- lapply(exprs, function(e) try(eval(e, envir = env)))
+    fails <- sapply(anss, inherits, "try-error")
 
-    if (any(sapply(anss, inherits, "try-error"))) {
-      wormhole(timemachine.dates[i])
-      stop("Evaluation error. Opening wormhole at time of occurence.", call. = FALSE)
+    if (any(fails)) {
+      wormhole(dates[i])
+      stop("Evaluation error in: ",
+        paste(names(anss)[fails], collapse = ", "),
+        "Opening wormhole at time of occurence.",
+        call. = FALSE
+      )
     }
 
     is.boxable <- vapply(anss, ts_boxable, TRUE)
@@ -79,10 +83,11 @@ timemachine <- function(...,
     names(anss.tbl) <- exprs.names
 
     ll[[i]] <- bind_rows(anss.tbl, .id = "expr") %>%
-      mutate(pub_date = timemachine.dates[i])
+      mutate(pub_date = dates[i])
   }
 
   bind_rows(ll) %>%
     rename(ref_date = time) %>%
-    select(pub_date, ref_date, expr, value, everything())
+    select(expr, pub_date, ref_date, value, everything()) %>%
+    arrange(expr, pub_date, ref_date)
 }

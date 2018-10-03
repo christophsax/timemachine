@@ -4,13 +4,13 @@
 \alias{timemachine}
 \title{Travel Through Time}
 \usage{
-timemachine(..., timemachine.dates = getOption("timemachine.dates"))
+timemachine(..., dates = getOption("timemachine.dates"))
 }
 \arguments{
 \item{...}{expressions to be evaluated. Expressions can be named, so the name
 will appear in the output}
 
-\item{timemachine.dates}{expressions to be evaluated. Usually specifyied via
+\item{dates}{expressions to be evaluated. Usually specifyied via
 options. See examples. Expressions can be named, so the name
 will appear in the output}
 }
@@ -33,7 +33,7 @@ ldeaths.history <- bind_rows(
 )
 
 options(timemachine.history = ldeaths.history)
-options(timemachine.dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
+options(dates = seq(as.Date("1979-10-01"), to = as.Date("1979-12-01"), by = "month"))
 
 library(forecast)
 timemachine({

@@ -24,6 +24,6 @@ point. If `by` is specified, a publication delay will be assumed.
 See seq.POSIXt for the details of "month".
 }
 \examples{
-pseudo_history(ts_tbl(mdeaths), "1 month")
-pseudo_history(ts_tbl(fdeaths))
+pseudo_history(ts_c(mdeaths, fdeaths), "1 month")
+pseudo_history(fdeaths)
 }

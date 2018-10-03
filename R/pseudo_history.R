@@ -14,15 +14,16 @@
 #' @param by offset of publication date. See details.
 #'
 #' @examples
-#' pseudo_history(ts_tbl(mdeaths), "1 month")
-#' pseudo_history(ts_tbl(fdeaths))
+#' pseudo_history(ts_c(mdeaths, fdeaths), "1 month")
+#' pseudo_history(fdeaths)
 #' @export
 pseudo_history <- function(x, by = NULL) {
   stopifnot(tsbox::ts_boxable(x))
 
   dta0 <- ts_tbl(x) %>%
     rename(ref_date = time) %>%
-    mutate(pub_date = add_to_date(ref_date, by))
+    mutate(pub_date = add_to_date(ref_date, by)) %>%
+    select(starts_with("id"), pub_date, ref_date, value)
 
   blow_up <- function(this) {
     this %>%
@@ -31,19 +32,22 @@ pseudo_history <- function(x, by = NULL) {
       mutate(data = list(filter(this, pub_date <= .pub_date))) %>%
       ungroup() %>%
       unnest() %>%
-      mutate(pub_date = .pub_date) %>%
-      select(-.pub_date)
+      select(-pub_date) %>%
+      rename(pub_date = .pub_date)
   }
 
   if (ncol(dta0) > 3) {
-    dta0 %>%
-      split(dta0$var) %>%
+    z <- dta0 %>%
+      split(dta0$id) %>%
       lapply(blow_up) %>%
       bind_rows() %>%
-      filter(!is.na(value))
+      filter(!is.na(value)) %>%
+      select(starts_with("id"), pub_date, ref_date, value)
   } else {
-    dta0 %>%
+    z <- dta0 %>%
       blow_up() %>%
       filter(!is.na(value))
   }
+
+  z
 }

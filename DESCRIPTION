@@ -7,7 +7,8 @@ Depends: R (>= 3.0.0),
   dplyr,
   tidyr,
   tsbox,
-  stringi
+Imports:
+  anytime
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

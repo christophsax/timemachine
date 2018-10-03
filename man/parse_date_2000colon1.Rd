@@ -10,7 +10,7 @@ parse_date_2000colon1(x)
 \item{character}{vector}
 }
 \description{
-Date converter with simpilar stucture
+Date converter with similar stucture
 - Naming convention: `parse_date_[EXAMPLE]
 - Apply operation on unique values only (use `apply_to_unique()`)
 - Use `stringi`?
