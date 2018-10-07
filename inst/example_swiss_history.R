@@ -47,7 +47,7 @@ library(forecast)
 
 
 # Put each model in a (named) expression. You can construct
-dta <- timemachine(
+fct_data <- timemachine(
   etf = {
     ts_attach(DATA)
     m <- forecast(GDP.CH, h = 3)
@@ -79,16 +79,22 @@ dta <- timemachine(
 ### Back to the Future
 
 
-errors <-
-  dta %>%
+history <- getOption("timemachine.history")
+
+# need to find a clever way to get 'reference data'
+ref_data <-
+  latest() %>%
+  ts_pick("GDP.CH") %>%
+  select(ref_date = time, ref_value = value)
+
+errors <- fct_data %>%
+  left_join(ref_data, by = "ref_date") %>%
+
+  # add fct horizon
   group_by(pub_date, expr) %>%
   mutate(h = seq(n())) %>%
-  ungroup() %>%
-  rename(fct = value) %>%
-  mutate(var = "GDP.CH") %>%
-  left_join(rename(latest(), act = value)) %>%
-  filter(!is.na(act)) %>%
-  mutate(error = fct - act)
+  ungroup()  %>%
+  mutate(error = value - ref_value)
 
 # error stats
 errors %>%
@@ -100,7 +106,7 @@ errors %>%
 library(ggplot2)
 errors %>%
   ggplot() +
-  geom_point(aes(x = fct, y = act)) +
+  geom_point(aes(x = ref_value, y = value)) +
   facet_grid(h ~ expr)
 
 
