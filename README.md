@@ -1,5 +1,9 @@
 # Travel Through Time
 
+[![Build Status](https://travis-ci.org/christophsax/timemachine.svg?branch=master)](https://travis-ci.org/christophsax/timemachine)
+
+[![codecov](https://codecov.io/github/christophsax/timemachine/branch/master/graphs/badge.svg)](https://codecov.io/github/christophsax/timemachine)
+
 R framework that makes evaluation of forecasts easy.
 
 ![](https://raw.githubusercontent.com/christophsax/timemachine/master/inst/img/DTM.png)
