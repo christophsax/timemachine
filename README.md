@@ -1,7 +1,6 @@
 # Travel Through Time
 
 [![Build Status](https://travis-ci.org/christophsax/timemachine.svg?branch=master)](https://travis-ci.org/christophsax/timemachine)
-
 [![codecov](https://codecov.io/github/christophsax/timemachine/branch/master/graphs/badge.svg)](https://codecov.io/github/christophsax/timemachine)
 
 R framework that makes evaluation of forecasts easy.
@@ -23,7 +22,8 @@ remotes::install_github("christophsax/timemachine")
 ```r
 library(timemachine)
 ```
-** Since version 0.0.2, 'history' and 'dates' are not set via options anymore, and must be provided explicitly.**
+
+**Since version 0.0.2, 'history' and 'dates' are not set via options anymore, and must be provided explicitly.**
 
 Run `timemachine` with one or several forecast models. Build the models as you
 would build them in standard R. `timemachine` exposes the data, evaluates the
