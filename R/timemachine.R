@@ -215,7 +215,7 @@
 #' @importFrom stats time
 #' @importFrom rlang .data
 #' @importFrom tidyr unnest
-#' @importFrom tsbox ts_boxable ts_c ts_tbl ts_tslist
+#' @importFrom tsbox ts_boxable ts_c ts_tbl ts_tslist ts_xts
 #' @importFrom anytime anydate
 #' @import dplyr
 timemachine <- function(...,dates, history) {
