@@ -2,7 +2,7 @@
 % Please edit documentation in R/wormhole.R
 \name{latest}
 \alias{latest}
-\title{Latest available daata}
+\title{Latest available data}
 \usage{
 latest(history)
 }
@@ -11,5 +11,5 @@ latest(history)
 variables}
 }
 \description{
-Latest available daata
+Latest available data
 }

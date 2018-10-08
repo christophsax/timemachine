@@ -2,7 +2,7 @@
 #'
 #' @param history a data frame with the publication history of the data.
 #'  Must have column names `pub_date`, `ref_date` and `value`, plus a column
-#'  that idenfies multiple series. Use `check_history()` to check the validity
+#'  that identifies multiple series. Use `check_history()` to check the validity
 #'  of a history data.frame
 #'
 #' @export

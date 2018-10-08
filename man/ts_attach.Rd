@@ -12,6 +12,6 @@ ts_attach(x, envir = globalenv())
 \item{envir}{an environment, where to assign the  `ts` objects.}
 }
 \description{
-Assignes time series from tsboxable objects as single `ts` objects, usually
-to the global enviroment.
+Assigns time series from tsboxable objects as single `ts` objects, usually
+to the global environment.
 }

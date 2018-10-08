@@ -1,5 +1,5 @@
 Package: timemachine
-Title: Travelling Through Time
+Title: Travel Through Time
 Version: 0.0.2
 Authors@R: person("Christoph", "Sax", email = "christoph.sax@gmail.com", role = c("aut", "cre"))
 Description: R framework that makes evaluation of forecasts easy.

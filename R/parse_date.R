@@ -1,6 +1,6 @@
 #' Convert to date
 #'
-#' Date converter with similar stucture
+#' Date converter with similar structure
 #' - Naming convention: `parse_date_[EXAMPLE]
 #' - Apply operation on unique values only (use `apply_to_unique()`)
 #' - Use `stringi`?

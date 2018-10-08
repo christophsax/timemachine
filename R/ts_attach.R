@@ -1,7 +1,7 @@
 #' 'Attach' single `ts` objects
 #'
-#' Assignes time series from tsboxable objects as single `ts` objects, usually
-#' to the global enviroment.
+#' Assigns time series from tsboxable objects as single `ts` objects, usually
+#' to the global environment.
 #'
 #' @param x a tsboxable time series object.
 #' @param envir an environment, where to assign the  `ts` objects.
