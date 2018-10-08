@@ -1,13 +1,26 @@
 Package: timemachine
-Title: Travelling Through Time
-Version: 0.0.0.9000
+Title: Travel Through Time
+Version: 0.0.2
 Authors@R: person("Christoph", "Sax", email = "christoph.sax@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: R framework that makes evaluation of forecasts easy.
 Depends: R (>= 3.0.0),
+  miniUI
+Imports:
+  anytime,
+  stringi,
+  stats,
   dplyr,
   tidyr,
   tsbox,
-  stringi
+  rlang,
+  clipr,
+  shiny,
+  dygraphs
+Suggests:
+  forecast,
+  testthat,
+  ggplot2,
+  readxl
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

@@ -8,21 +8,25 @@
 #'   - A number, taken to be in days.
 #'   - A object of class `difftime`
 #'   - A character string, containing one of "day", "week", "month", "quarter" or "year". This can optionally be preceded by a (positive or negative) integer and a space, or followed by "s".
-#' See seq.POSIXt for the details of "month".
 #'
 #' @param x a `ts_boxable` time series.
 #' @param by offset of publication date. See details.
 #'
 #' @examples
-#' pseudo_history(ts_tbl(mdeaths), "1 month")
-#' pseudo_history(ts_tbl(fdeaths))
+#' library(tsbox)
+#' pseudo_history(ts_c(mdeaths, fdeaths), "1 month")
+#' pseudo_history(fdeaths)
 #' @export
 pseudo_history <- function(x, by = NULL) {
-  stopifnot(tsbox::ts_boxable(x))
+  stopifnot(ts_boxable(x))
 
   dta0 <- ts_tbl(x) %>%
-    rename(ref_date = time) %>%
-    mutate(pub_date = add_to_date(ref_date, by))
+    rename(ref_date = .data$time) %>%
+    mutate(pub_date = add_to_date(.data$ref_date, by)) %>%
+    select(starts_with("id"), .data$pub_date, .data$ref_date, .data$value)
+
+  pub_date <- NULL
+  .pub_date <- NULL
 
   blow_up <- function(this) {
     this %>%
@@ -31,19 +35,29 @@ pseudo_history <- function(x, by = NULL) {
       mutate(data = list(filter(this, pub_date <= .pub_date))) %>%
       ungroup() %>%
       unnest() %>%
-      mutate(pub_date = .pub_date) %>%
-      select(-.pub_date)
+      select(-pub_date) %>%
+      rename(pub_date = .pub_date)
   }
 
   if (ncol(dta0) > 3) {
-    dta0 %>%
-      split(dta0$var) %>%
+    z <- dta0 %>%
+      split(dta0$id) %>%
       lapply(blow_up) %>%
       bind_rows() %>%
-      filter(!is.na(value))
+      filter(!is.na(.data$value)) %>%
+      select(starts_with("id"), .data$pub_date, .data$ref_date, .data$value)
   } else {
-    dta0 %>%
+    z <- dta0 %>%
       blow_up() %>%
-      filter(!is.na(value))
+      filter(!is.na(.data$value))
+
+    # add id col for single series
+    .id <- deparse(substitute(x))
+    z <-
+      mutate(z, id = .id) %>%
+      select(.data$id, everything())
+
   }
+
+  z
 }
