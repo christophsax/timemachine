@@ -19,17 +19,17 @@ timemachinenv <- function() {
 #' enviroment as it was available on that day.
 #'
 #' @param date `"Date"` or `"character"`, the date where to a wormhole should be
-#'   opened.
+#'  opened.
 #'
-#' @param history a data frame containing the history of the data.
-#'   Must have column names `pub_date`, `ref_date` and `value`, plus a column
-#'   that idenfies multiple series. Currently, this must be a single column
-#'   `id`, but this will change. Usually, `history` is set as an
-#'   option (see examples)
+#' @param history a data frame with the publication history of the data.
+#'  Must have column names `pub_date`, `ref_date` and `value`, plus a column
+#'  that idenfies multiple series. Use `check_history()` to check the validity
+#'  of a history data.frame
 #'
-#' @param as character, how to expose the variables in history. By default, the
-#'   function exposes time series as single `"ts"` objects and a data frame,
-#'   named `.data`, but all `ts_boxable` objects are supported.
+#' @param post_process a function that is applied on `DATA`. By default,
+#'  `ts_attach` adds makes series available as single `ts` objects. Alternatives
+#'  are: `ts_ts` (to convert it to a multiple `mts` object), or any converter
+#'  from tsbox.
 #'
 #' @param envir environment where to expose the data.
 #'
@@ -38,13 +38,17 @@ timemachinenv <- function() {
 #' @export
 #' @importFrom anytime anydate
 #' @import tsbox
-wormhole <- function(date = NULL,
-                     history = getOption("timemachine.history"),
+wormhole <- function(history,
+                     date = NULL,
                      envir = globalenv(),
-                     verbose = TRUE) {
-  if (is.null(date)) date <- Sys.Date()
-  TODAY <- anytime::anydate(date)
+                     verbose = TRUE,
+                     post_process = ts_attach) {
 
+  history <- check_history(history)
+
+  if (is.null(date)) date <- Sys.Date()  # or we may open GUI
+
+  TODAY <- anytime::anydate(date)
   if (verbose) {
     message(
       "Opening wormhole in ", TODAY,
@@ -52,7 +56,6 @@ wormhole <- function(date = NULL,
       )
   }
 
-  check_history(history)
 
   # data available at date
   DATA <- history %>%
@@ -62,8 +65,8 @@ wormhole <- function(date = NULL,
     ungroup() %>%
     transmute(time = ref_date, value, id)
 
-  if (!is.null(envir)){
-    assign("DATA", DATA, envir = envir)
+  if (!is.null(envir)) {
+    assign("DATA", post_process(DATA), envir = envir)
     assign("TODAY", TODAY, envir = envir)
   }
 
@@ -71,7 +74,12 @@ wormhole <- function(date = NULL,
 }
 
 #' @export
-latest <- function(...) {
-  z <- wormhole(verbose = FALSE, envir = NULL)
+latest <- function(history) {
+  z <- wormhole(
+    history = history,
+    post_process = function(x) x,
+    envir = NULL,
+    verbose = FALSE
+  )
   z
 }

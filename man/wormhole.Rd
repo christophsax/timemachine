@@ -4,26 +4,26 @@
 \alias{wormhole}
 \title{Travel to a Specific Point in Time}
 \usage{
-wormhole(date = NULL, history = getOption("timemachine.history"),
-  envir = timemachinenv(), verbose = TRUE)
+wormhole(history, date = NULL, envir = globalenv(), verbose = TRUE,
+  post_process = ts_attach)
 }
 \arguments{
+\item{history}{a data frame with the publication history of the data.
+Must have column names `pub_date`, `ref_date` and `value`, plus a column
+that idenfies multiple series. Use `check_history()` to check the validity
+of a history data.frame}
+
 \item{date}{`"Date"` or `"character"`, the date where to a wormhole should be
 opened.}
-
-\item{history}{a data frame containing the history of the data.
-Must have column names `pub_date`, `ref_date` and `value`, plus a column
-that idenfies multiple series. Currently, this must be a single column
-`id`, but this will change. Usually, `history` is set as an
-option (see examples)}
 
 \item{envir}{environment where to expose the data.}
 
 \item{verbose}{logical, what objects will be exposed?}
 
-\item{as}{character, how to expose the variables in history. By default, the
-function exposes time series as single `"ts"` objects and a data frame,
-named `.data`, but all `ts_boxable` objects are supported.}
+\item{post_process}{a function that is applied on `DATA`. By default,
+`ts_attach` adds makes series available as single `ts` objects. Alternatives
+are: `ts_ts` (to convert it to a multiple `mts` object), or any converter
+from tsbox.}
 }
 \description{
 Opening a wormhole enables time travel to a specific point in time. By

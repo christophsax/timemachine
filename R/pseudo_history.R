@@ -47,6 +47,13 @@ pseudo_history <- function(x, by = NULL) {
     z <- dta0 %>%
       blow_up() %>%
       filter(!is.na(value))
+
+    # add id col for single series
+    .id <- deparse(substitute(x))
+    z <-
+      mutate(z, id = .id) %>%
+      select(id, everything())
+
   }
 
   z
