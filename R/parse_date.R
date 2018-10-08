@@ -5,7 +5,7 @@
 #' - Apply operation on unique values only (use `apply_to_unique()`)
 #' - Use `stringi`?
 #'
-#' @param character vector
+#' @param x character vector
 #' @examples
 #' parse_date_2000colon1(c("2000:1", "2000:2"))
 #'
@@ -13,6 +13,7 @@
 #' # parse_date_2000colon1(c("2000:5"))
 #' # parse_date_2000colon1(c("00:1"))
 #' @export
+#' @importFrom stringi stri_split_fixed
 parse_date_2000colon1 <- function(x) {
   apply_to_unique(
     function(x) {
@@ -39,7 +40,7 @@ check_subset <- function(x, of) {
 apply_to_unique <- function(fun, x) {
   xu <- unique(x)
   zu <- fun(xu)
-  left_join(data_frame(x = x), data_frame(x = xu, z = zu), by = "x")$z
+  left_join(tibble(x = x), tibble(x = xu, z = zu), by = "x")$z
 }
 
 quarter_to_month <- function(q) {

@@ -3,14 +3,21 @@ Title: Travelling Through Time
 Version: 0.0.2
 Authors@R: person("Christoph", "Sax", email = "christoph.sax@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
-Depends: R (>= 3.0.0),
+Depends: R (>= 3.0.0)
+Imports:
+  anytime,
+  stringi,
+  stats,
   dplyr,
   tidyr,
   tsbox,
-Imports:
-  anytime
+  rlang
+Suggests:
+  forecast,
+  testthat,
+  ggplot2,
+  readxl
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-Suggests: testthat

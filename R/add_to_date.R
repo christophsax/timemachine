@@ -1,5 +1,6 @@
 #' Add Days, Weeks, Months, Quarters or Years to Dates
 #'
+#' @param x Date
 #' @param by can be specified in several ways.
 #'     - A number, taken to be in days.
 #'     - A object of class difftime

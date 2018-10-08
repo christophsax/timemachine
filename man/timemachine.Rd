@@ -195,29 +195,16 @@ errors \%>\%
 
 
 # Advanced benchmarking -----------------------------------------------------
-
-bench0 <-
+# annual gdp growth
+history_gdp <-
   swiss_history \%>\%
-  # filter variable of interest (annual GDP)
   filter(id == "GDP.CH") \%>\%
-  group_by(pub_date,
-           ref_date = as.Date(paste0(data.table::year(ref_date), "-1-1"))
-           ) \%>\%
-  # drop incomplete years
-  filter(n() == 4) \%>\%
-  summarize(value = sum(value)) \%>\%
-
-  # calculate percentage change rate
-  # need to sort and group by pub data, to get proper lags
-  arrange(ref_date) \%>\%
-  group_by(pub_date) \%>\%
-  mutate(value = value / lag(value) - 1) \%>\%
-  ungroup() \%>\%
-  filter(!is.na(value))
+  ts_frequency("year", sum) \%>\%
+  ts_pc()
 
 # 1st BFS value is available in Oct
 bench_bfs <-
-  bench0 \%>\%
+  history_gdp \%>\%
   filter(as.POSIXlt(pub_date)$mon + 1 == 7) \%>\%
   arrange(pub_date) \%>\%
   group_by(ref_date) \%>\%
@@ -225,9 +212,9 @@ bench_bfs <-
   ungroup() \%>\%
   select(ref_date, ref_value = value)
 
-# 1st SECO value is the first aailable value
+# 1st SECO value is the first available value
 bench_seco <-
-  bench0 \%>\%
+  history_gdp \%>\%
   arrange(pub_date) \%>\%
   group_by(ref_date) \%>\%
   slice(1) \%>\%

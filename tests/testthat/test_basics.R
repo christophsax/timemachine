@@ -1,4 +1,8 @@
 library(testthat)
+library(timemachine)
+library(forecast)
+library(dplyr)
+library(tsbox)
 
 context("basic setup works as expected")
 
@@ -13,7 +17,7 @@ test_that("minimal pseudo history example works correctly", {
     check_history()
 
   # Telling the time machine where to evaluate
-  dates = seq(as.Date("1979-04-01"), to = as.Date("1979-06-01"), by = "month")
+  dates = seq(as.Date("1979-01-01"), to = as.Date("1979-03-01"), by = "month")
 
   # Put each model in a (named) expression. You can construct
   fct_data <- timemachine(
@@ -42,10 +46,6 @@ test_that("minimal pseudo history example works correctly", {
 
   errors <- fct_data %>%
     inner_join(bench_data, by = "ref_date") %>%
-    # add fct horizon
-    group_by(pub_date, expr) %>%
-    mutate(h = seq(n())) %>%
-    ungroup()  %>%
     mutate(error = value - ref_value)
 
   # error stats
@@ -53,7 +53,7 @@ test_that("minimal pseudo history example works correctly", {
     group_by(expr) %>%
     summarize(rmse = sqrt(sum(error^2)), mae = (mean(abs(error)))) %>%
     ungroup() %>%
-    mutate(rmse.ok = rmse > c(77, 45) & rmse < c(79, 47)) %>%
+    mutate(rmse.ok = rmse > c(279, 428) & rmse < c(281, 430)) %>%
     pull(rmse.ok)
 
   expect_true(all(ok))

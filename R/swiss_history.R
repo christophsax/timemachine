@@ -9,9 +9,13 @@
 #' @name swiss_history
 #' @keywords datasets
 #' @examples
-#'
+#' \dontrun{
 #' ## import latest data
-#' url <- "https://www.seco.admin.ch/dam/seco/de/dokumente/Wirtschaft/Wirtschaftslage/VIP%20Quartalssch%C3%A4tzungen/realtime_database.xls.download.xls/realtime_database.xls"
+#' url <- paste0(
+#'   "https://www.seco.admin.ch/dam/seco/de/dokumente/Wirtschaft/",
+#'   "Wirtschaftslage/VIP%20Quartalssch%C3%A4tzungen/",
+#'   "realtime_database.xls.download.xls/realtime_database.xls"
+#' )
 #'
 #' library(readxl)
 #' library(dplyr)
@@ -26,7 +30,7 @@
 #' sheets <- readxl::excel_sheets(tf)
 #'
 #' swiss_history <-
-#'   data_frame(id = setdiff(sheets, "title")) %>%
+#'   tibble(id = setdiff(sheets, "title")) %>%
 #'   rowwise() %>%
 #'   mutate(data = list(read_excel(path = tf, sheet = id, skip = 10))) %>%
 #'   ungroup() %>%
@@ -37,8 +41,8 @@
 #'   select(id, pub_date, ref_date, value) %>%
 #'   filter(!is.na(value))
 #'
-#' # save(swiss_history, file = "data/swiss_history.RData")
-#'
+#' # save(swiss_history, file = "data/swiss_history.RData", compress='xz')
+#' }
 #' data(swiss_history)
 #' swiss_history
 NULL

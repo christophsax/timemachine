@@ -11,7 +11,7 @@ ts_attach <- function(x, envir = globalenv()) {
   tl <- ts_tslist(x)
   message("Attached: ", paste(names(tl), collapse = ", "))
   Map(
-    function(...) assign(..., envir = globalenv()),
+    function(...) assign(..., envir = envir),
     x = names(tl),
     value = tl
   )

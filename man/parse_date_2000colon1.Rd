@@ -7,7 +7,7 @@
 parse_date_2000colon1(x)
 }
 \arguments{
-\item{character}{vector}
+\item{x}{character vector}
 }
 \description{
 Date converter with similar stucture

@@ -1,3 +1,14 @@
+#' Check validity of history data
+#'
+#' Modifies order, classes, if necessary.
+#'
+#' @param history a data.frame, containing historic data for one or several
+#'   variables
+#'
+#' @examples
+#'
+#' check_history(swiss_history)
+#'
 #' @export
 check_history <- function(history) {
 
@@ -19,7 +30,7 @@ check_history <- function(history) {
       rename(id = !! key.name)
   }
 
-  history <- select(history, pub_date, ref_date, value, everything())
+  history <- select(history, .data$pub_date, .data$ref_date, .data$value, everything())
 
 
   # ensure class.
@@ -37,14 +48,14 @@ check_history <- function(history) {
 
   history <- history %>%
     mutate(
-      pub_date = ensure_class(pub_date, "Date"),
-      ref_date = ensure_class(ref_date, "Date")
+      pub_date = ensure_class(.data$pub_date, "Date"),
+      ref_date = ensure_class(.data$ref_date, "Date")
     )
 
   if ("id" %in% colnames(history)) {
-    history <- select(history, id, everything()) %>%
+    history <- select(history, .data$id, everything()) %>%
       mutate(
-        id = ensure_class(id, "character")
+        id = ensure_class(.data$id, "character")
       )
   }
 

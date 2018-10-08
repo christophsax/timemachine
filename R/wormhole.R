@@ -36,8 +36,6 @@ timemachinenv <- function() {
 #' @param verbose logical, what objects will be exposed?
 #'
 #' @export
-#' @importFrom anytime anydate
-#' @import tsbox
 wormhole <- function(history,
                      date = NULL,
                      envir = globalenv(),
@@ -59,11 +57,11 @@ wormhole <- function(history,
 
   # data available at date
   DATA <- history %>%
-    filter(pub_date <= TODAY) %>%
+    filter(.data$pub_date <= TODAY) %>%
     group_by(id) %>%
-    filter(pub_date == max(pub_date)) %>%
+    filter(.data$pub_date == max(.data$pub_date)) %>%
     ungroup() %>%
-    transmute(time = ref_date, value, id)
+    transmute(time = .data$ref_date, .data$value, .data$id)
 
   if (!is.null(envir)) {
     assign("DATA", post_process(DATA), envir = envir)
@@ -73,6 +71,9 @@ wormhole <- function(history,
   return(invisible(DATA))
 }
 
+#' Latest available daata
+#' @param history a data.frame, containing historic data for one or several
+#'   variables
 #' @export
 latest <- function(history) {
   z <- wormhole(

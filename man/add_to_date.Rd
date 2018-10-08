@@ -7,6 +7,8 @@
 add_to_date(x, by = NULL)
 }
 \arguments{
+\item{x}{Date}
+
 \item{by}{can be specified in several ways.
 - A number, taken to be in days.
 - A object of class difftime
