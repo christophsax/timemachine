@@ -218,7 +218,7 @@
 #' @importFrom tsbox ts_boxable ts_c ts_tbl ts_tslist ts_xts
 #' @importFrom anytime anydate
 #' @import dplyr
-timemachine <- function(...,dates, history) {
+timemachine <- function(...,dates, history, post_process = ts_attach) {
 
   history <- check_history(history)
 
@@ -234,13 +234,13 @@ timemachine <- function(...,dates, history) {
   ll <- list()
   for (i in seq_along(dates)) {
     message(dates[i])
-    wormhole(dates[i], history = history, envir = env, verbose = FALSE)
+    wormhole(dates[i], history = history, envir = env, verbose = FALSE, post_process = post_process)
 
     anss <- lapply(exprs, function(e) try(eval(e, envir = env)))
     fails <- sapply(anss, inherits, "try-error")
 
     if (any(fails)) {
-      wormhole(dates[i], history = history)
+      wormhole(dates[i], history = history, post_process = post_process)
       stop("Evaluation error in: ",
         paste(names(anss)[fails], collapse = ", "),
         "Opening wormhole at time of occurence.",
