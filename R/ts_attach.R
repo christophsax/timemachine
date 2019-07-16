@@ -15,5 +15,5 @@ ts_attach <- function(x, envir = globalenv()) {
     x = names(tl),
     value = tl
   )
-  return(invisible(TRUE))
+  return(invisible(x))
 }
