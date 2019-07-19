@@ -13,11 +13,10 @@ library(bdfm)
 # Benchmark Data ---------------------------------------------------------------
 
 bench_data <-
-  as_tibble(data.table::fread("indic_ch.csv")) %>%
-  select(time, value, id) %>%
-  mutate(time = as.Date(time)) %>%
+  econ_us %>%
+  ts_tbl()  %>%
   filter(!is.na(value)) %>%
-  ts_pick("gdp_rev") %>%
+  ts_pick("A191RL1Q225SBEA") %>%
   select(ref_date = time, ref_value = value)
 
 results <- as_tibble(data.table::fread("timemachine_results.csv")) %>%
