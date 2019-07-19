@@ -2,16 +2,16 @@
 % Please edit documentation in R/ts_attach.R
 \name{ts_attach}
 \alias{ts_attach}
-\title{'Attach' single `ts` objects}
+\title{'Attach' single \code{ts} objects}
 \usage{
 ts_attach(x, envir = globalenv())
 }
 \arguments{
 \item{x}{a tsboxable time series object.}
 
-\item{envir}{an environment, where to assign the  `ts` objects.}
+\item{envir}{an environment, where to assign the  \code{ts} objects.}
 }
 \description{
-Assigns time series from tsboxable objects as single `ts` objects, usually
+Assigns time series from tsboxable objects as single \code{ts} objects, usually
 to the global environment.
 }

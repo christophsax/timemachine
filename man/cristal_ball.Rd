@@ -8,8 +8,8 @@ cristal_ball(history)
 }
 \arguments{
 \item{history}{a data frame with the publication history of the data.
-Must have column names `pub_date`, `ref_date` and `value`, plus a column
-that identifies multiple series. Use `check_history()` to check the validity
+Must have column names \code{pub_date}, \code{ref_date} and \code{value}, plus a column
+that identifies multiple series. Use \code{check_history()} to check the validity
 of a history data.frame}
 }
 \description{

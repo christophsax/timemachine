@@ -9,24 +9,24 @@ wormhole(history, date = NULL, envir = globalenv(), verbose = TRUE,
 }
 \arguments{
 \item{history}{a data frame with the publication history of the data.
-Must have column names `pub_date`, `ref_date` and `value`, plus a column
-that identifies multiple series. Use `check_history()` to check the validity
+Must have column names \code{pub_date}, \code{ref_date} and \code{value}, plus a column
+that identifies multiple series. Use \code{check_history()} to check the validity
 of a history data.frame}
 
-\item{date}{`"Date"` or `"character"`, the date where to a wormhole should be
+\item{date}{\code{"Date"} or \code{"character"}, the date where to a wormhole should be
 opened.}
 
 \item{envir}{environment where to expose the data.}
 
 \item{verbose}{logical, what objects will be exposed?}
 
-\item{post_process}{a function that is applied on `DATA`. By default,
-`ts_attach` adds makes series available as single `ts` objects. Alternatives
-are: `ts_ts` (to convert it to a multiple `mts` object), or any converter
+\item{post_process}{a function that is applied on \code{DATA}. By default,
+\code{ts_attach} adds makes series available as single \code{ts} objects. Alternatives
+are: \code{ts_ts} (to convert it to a multiple \code{mts} object), or any converter
 from tsbox.}
 }
 \description{
 Opening a wormhole enables time travel to a specific point in time. By
-default, the `history` data frame is exposed to the global
+default, the \code{history} data frame is exposed to the global
 environment as it was available on that day.
 }

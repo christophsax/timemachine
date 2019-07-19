@@ -11,9 +11,11 @@ parse_date_2000colon1(x)
 }
 \description{
 Date converter with similar structure
-- Naming convention: `parse_date_[EXAMPLE]
-- Apply operation on unique values only (use `apply_to_unique()`)
-- Use `stringi`?
+\itemize{
+\item Naming convention: `parse_date_\link{EXAMPLE}
+\item Apply operation on unique values only (use \code{apply_to_unique()})
+\item Use \code{stringi}?
+}
 }
 \examples{
 parse_date_2000colon1(c("2000:1", "2000:2"))
