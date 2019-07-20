@@ -47,7 +47,7 @@ history <- econ_us %>%
 check_history(history)
 
 # Telling the time machine where to evaluate
-dates = seq(as.Date("2018-09-01"),
+dates = seq(as.Date("2008-01-01"),
             to = as.Date("2018-10-01"),
             by = "month")
 
