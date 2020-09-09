@@ -4,8 +4,13 @@
 \alias{wormhole}
 \title{Travel to a Specific Point in Time}
 \usage{
-wormhole(history, date = NULL, envir = globalenv(), verbose = TRUE,
-  post_process = ts_attach)
+wormhole(
+  history,
+  date = NULL,
+  envir = globalenv(),
+  verbose = TRUE,
+  post_process = ts_attach
+)
 }
 \arguments{
 \item{history}{a data frame with the publication history of the data.

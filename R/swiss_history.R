@@ -34,7 +34,7 @@
 #'   rowwise() %>%
 #'   mutate(data = list(read_excel(path = tf, sheet = id, skip = 10))) %>%
 #'   ungroup() %>%
-#'   unnest() %>%
+#'   unnest(cols = c(data)) %>%
 #'   rename(ref_date = X__1) %>%
 #'   gather(pub_date, value, -id, -ref_date) %>%
 #'   mutate_at(c("ref_date", "pub_date"), parse_date_2000colon1) %>%

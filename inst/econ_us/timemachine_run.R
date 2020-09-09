@@ -40,7 +40,7 @@ history <- econ_us %>%
   nest(time, value) %>%
   left_join(delays, by = "id") %>%
   mutate(data = Map(pseudo_history, x = data, by = delay)) %>%
-  unnest() %>%
+  unnest(cols = c(data)) %>%
   select(-delay, -id1) %>%
   filter(!is.na(value))
 

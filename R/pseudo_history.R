@@ -34,7 +34,7 @@ pseudo_history <- function(x, by = NULL) {
       rowwise() %>%
       mutate(data = list(filter(this, pub_date <= .pub_date))) %>%
       ungroup() %>%
-      unnest() %>%
+      unnest(cols = c(data)) %>%
       select(-pub_date) %>%
       rename(pub_date = .pub_date)
   }
